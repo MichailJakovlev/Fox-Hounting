@@ -32,33 +32,31 @@ public class CharacterMovement : MonoBehaviour
             vertical = 0f;
         }
         Vector3 direction = new Vector3 (horizontal, 0f, vertical).normalized;
-        if (direction.magnitude >= 0.1f) {
 
-            
+        if (horizontal != 0 || vertical != 0)
+        {
+            if (direction.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
 
-            moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+                anim.Play("Fox_Run");
 
-            anim.Play("Fox_Run");
-
-            agent.velocity = moveDir * speed * Time.fixedDeltaTime;
-            agent.SetDestination(moveDir + agent.transform.position);
-           
-
+                agent.velocity = moveDir * speed * Time.fixedDeltaTime;
+                agent.SetDestination(moveDir + agent.transform.position);
+            }
         }
 
-        if (direction.magnitude <= 0.1f && isDashing == false)
+        else if (isDashing == false)
         {
-
+            agent.SetDestination(agent.transform.position);
             anim.Play("Fox_Idle");
         }
-
     }
-
 }
 
 
