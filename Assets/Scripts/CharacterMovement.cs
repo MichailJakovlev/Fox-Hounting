@@ -1,42 +1,32 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class CharacterMovement : MonoBehaviour
 {
-    //public CharacterController controller;
-
     public NavMeshAgent agent;
     public Animator anim;
     public bool isDashing = false;
+    public bool isAttack = false;
     public float speed = 6f;
     public float turnSmoothTime = 0.1f;
     public Vector3 moveDir;
     float turnSmoothVelocity;
 
-    // test gameover menu
     public UIManager UIManager;
 
-    public void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void LateUpdate() {
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        if (isDashing) {
+        
+        if (isDashing || isAttack)
+        {
             horizontal = 0f;
             vertical = 0f;
         }
 
-        // test gameover menu
-        if (Input.GetKeyDown(KeyCode.K)) {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
             UIManager.SetGameOverMenu(true);
         }
 
@@ -60,7 +50,7 @@ public class CharacterMovement : MonoBehaviour
             }
         }
 
-        else if (isDashing == false)
+        else if (isDashing == false && isAttack == false)
         {
             agent.SetDestination(agent.transform.position);
             anim.Play("Fox_Idle");

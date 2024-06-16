@@ -2,44 +2,67 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class TakeRabbit : MonoBehaviour
 {
     bool isTaken = false;
     public Collider Nest;
-    public Collider Rabbit;
+    private Collider Rabbit;
     public GameObject Mouth;
-    public Animator rabbitAnim;
     public Animator foxAnim;
     public LifeTimer Timer;
+    public SpawnRabbit Spawn;
+    CharacterMovement moveScript;
+    public float attackTime;
 
-    private void OnTriggerStay(Collider other)
+    public void Start()
     {
+        moveScript = GetComponent<CharacterMovement>();
+        var Spawn = GetComponent<SpawnRabbit>();
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+
         if (other.gameObject.tag == "Rabbit")
         {
-            if(Input.GetKey(KeyCode.Space) && isTaken == false)
+            if (Input.GetKey(KeyCode.Space) && isTaken == false)
             {
                 isTaken = true;
+                Rabbit = other;
+                StartCoroutine(Attack());
+            }
+
+            if (isTaken && Rabbit.gameObject.transform.position != Mouth.transform.position && moveScript.isAttack == false)
+            {
+                Rabbit.gameObject.transform.position = Mouth.transform.position;
+                Rabbit.gameObject.transform.rotation = Mouth.transform.rotation;
             }
         }
 
-        if(isTaken == true && other.gameObject.tag == "Fox Nest")
+        if (isTaken == true && other.gameObject.tag == "Fox Nest")
         {
             isTaken = false;
             Destroy(Rabbit.gameObject);
             print("Yeah");
             Timer.lifeTime += 15;
+            Spawn.SpawnOnce();
         }
     }
 
-    void Update()
+    IEnumerator Attack()
     {
-        if (isTaken)
+        float startTime = Time.time;
+        moveScript.isAttack = true;
+
+        while (Time.time < startTime + attackTime)
         {
-            Rabbit.transform.position = Mouth.transform.position;
-            Rabbit.transform.rotation = Mouth.transform.rotation;
-            rabbitAnim.Play("Dead");
+            foxAnim.Play("Fox_Attack_Paws");
+            yield return null;
         }
+        moveScript.isAttack = false;
     }
 }
