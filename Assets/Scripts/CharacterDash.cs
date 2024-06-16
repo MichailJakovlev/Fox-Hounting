@@ -7,7 +7,6 @@ using UnityEngine.AI;
 
 public class CharacterDash : MonoBehaviour
 {
-
     CharacterMovement moveScript;
 
     public Animator anim;
@@ -18,20 +17,21 @@ public class CharacterDash : MonoBehaviour
 
     float dashTimer;
 
-    // Start is called before the first frame update
-    public void Start() {
+    public void Start()
+    {
         moveScript = GetComponent<CharacterMovement>();
-        
-}
+    }
 
-    // Update is called once per frame
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashTimer <= 0f) {
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashTimer <= 0f)
+        {
             StartCoroutine(Dash());
             dashTimer = dashDelay;
-            
         }
-        if (dashTimer > 0f) {
+
+        if (dashTimer > 0f)
+        {
             dashTimer -= Time.deltaTime;
         }
 
@@ -41,20 +41,21 @@ public class CharacterDash : MonoBehaviour
         }
     }
 
-
-    
-    IEnumerator Dash() {
+    IEnumerator Dash()
+    {
         float startTime = Time.time;
-        while (Time.time < startTime + dashTime) {
+        while (Time.time < startTime + dashTime)
+        {
             moveScript.isDashing = true;
-
-
+            
             anim.Play("Fox_Jump_InAir");
+            
             moveScript.agent.velocity = moveScript.moveDir * dashSpeed * Time.fixedDeltaTime;
             moveScript.agent.SetDestination(moveScript.moveDir + moveScript.agent.transform.position);
 
             yield return null;
         }
+        
         moveScript.isDashing = false;
     }
 }
