@@ -12,6 +12,7 @@ public class TakeRabbit : MonoBehaviour
     public GameObject Mouth;
     public Animator rabbitAnim;
     public Animator foxAnim;
+    public LifeTimer Timer;
 
     private void OnTriggerStay(Collider other)
     {
@@ -20,7 +21,7 @@ public class TakeRabbit : MonoBehaviour
             if(Input.GetKey(KeyCode.Space) && isTaken == false)
             {
                 isTaken = true;
-            }           
+            }
         }
 
         if(isTaken == true && other.gameObject.tag == "Fox Nest")
@@ -28,6 +29,7 @@ public class TakeRabbit : MonoBehaviour
             isTaken = false;
             Destroy(Rabbit.gameObject);
             print("Yeah");
+            Timer.lifeTime += 15;
         }
     }
 
@@ -39,5 +41,5 @@ public class TakeRabbit : MonoBehaviour
             Rabbit.transform.rotation = Mouth.transform.rotation;
             rabbitAnim.Play("Dead");
         }
-    } 
+    }
 }
