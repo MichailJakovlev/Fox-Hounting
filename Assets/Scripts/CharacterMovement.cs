@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class CharacterMovement : MonoBehaviour
 {
     //public CharacterController controller;
-    
+
     public NavMeshAgent agent;
     public Animator anim;
     public bool isDashing = false;
@@ -17,9 +17,12 @@ public class CharacterMovement : MonoBehaviour
     public Vector3 moveDir;
     float turnSmoothVelocity;
 
+    // test gameover menu
+    public UIManager UIManager;
+
     public void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -31,6 +34,12 @@ public class CharacterMovement : MonoBehaviour
             horizontal = 0f;
             vertical = 0f;
         }
+
+        // test gameover menu
+        if (Input.GetKeyDown(KeyCode.K)) {
+            UIManager.SetGameOverMenu(true);
+        }
+
         Vector3 direction = new Vector3 (horizontal, 0f, vertical).normalized;
 
         if (horizontal != 0 || vertical != 0)
@@ -58,5 +67,3 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 }
-
-
