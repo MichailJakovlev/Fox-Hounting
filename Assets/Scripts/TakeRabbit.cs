@@ -1,17 +1,13 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class TakeRabbit : MonoBehaviour
 {
-    bool isTaken = false;
+    public bool isTaken = false;
     public Collider Nest;
-    private Collider Rabbit;
+    private Collider _rabbit;
     public GameObject Mouth;
+    public Animator rabbitAnim;
     public Animator foxAnim;
     public LifeTimer Timer;
     public SpawnRabbit Spawn;
@@ -32,22 +28,21 @@ public class TakeRabbit : MonoBehaviour
             if (Input.GetKey(KeyCode.Space) && isTaken == false)
             {
                 isTaken = true;
-                Rabbit = other;
+                _rabbit = other;
                 StartCoroutine(Attack());
             }
 
-            if (isTaken && Rabbit.gameObject.transform.position != Mouth.transform.position && moveScript.isAttack == false)
+            if (isTaken && _rabbit.gameObject.transform.position != Mouth.transform.position && moveScript.isAttack == false)
             {
-                Rabbit.gameObject.transform.position = Mouth.transform.position;
-                Rabbit.gameObject.transform.rotation = Mouth.transform.rotation;
+                _rabbit.gameObject.transform.position = Mouth.transform.position;
+                _rabbit.gameObject.transform.rotation = Mouth.transform.rotation;
             }
         }
 
         if (isTaken == true && other.gameObject.tag == "Fox Nest")
         {
             isTaken = false;
-            Destroy(Rabbit.gameObject);
-            print("Yeah");
+            Destroy(_rabbit.gameObject);
             Timer.lifeTime += 15;
             Spawn.SpawnOnce();
         }
