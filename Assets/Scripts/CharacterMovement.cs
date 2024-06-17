@@ -18,7 +18,7 @@ public class CharacterMovement : MonoBehaviour
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        
+
         if (isDashing || isAttack)
         {
             horizontal = 0f;
@@ -27,7 +27,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            UIManager.SetGameOverMenu(true);
+            UIManager.SetGameOverMenu(true, "");
         }
 
         Vector3 direction = new Vector3 (horizontal, 0f, vertical).normalized;

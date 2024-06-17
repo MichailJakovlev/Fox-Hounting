@@ -11,15 +11,17 @@ public class LifeTimer : MonoBehaviour {
   public Slider slider;
   [SerializeField] TextMeshProUGUI timerText;
 
+  bool isTimerRunning = true;
+
   void LateUpdate () {
     lifeTime -= Time.deltaTime;
-    if (lifeTime <= 0) {
-      UIManager.SetGameOverMenu(true);
+    if (lifeTime <= 0 && isTimerRunning) {
+      UIManager.SetGameOverMenu(true, timerText.text);
+      isTimerRunning = false;
     }
     if (lifeTime >= maxLifeTime) {
       lifeTime = maxLifeTime;
     }
     slider.value = lifeTime;
-    timerText.text = lifeTime.ToString("F0");
   }
 }

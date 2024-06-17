@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour {
@@ -7,6 +8,8 @@ public class UIManager : MonoBehaviour {
     public GameObject MainMenuUI;
     public GameObject OptionsMenuUI;
     public GameObject GameOverMenuUI;
+
+    [SerializeField] public TextMeshProUGUI timerTextMenu;
 
     public void SetCanvas(bool isActive) {
         Canvas.SetActive(isActive);
@@ -17,7 +20,8 @@ public class UIManager : MonoBehaviour {
     public void SetOptionsMenu(bool isActive) {
         OptionsMenuUI.SetActive(isActive);
     }
-    public void SetGameOverMenu(bool isActive) {
+    public void SetGameOverMenu(bool isActive, string score) {
         GameOverMenuUI.SetActive(isActive);
+        timerTextMenu.text = score;
     }
 }
