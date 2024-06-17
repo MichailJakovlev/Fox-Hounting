@@ -3,12 +3,10 @@ using UnityEngine;
 
 public class SpawnRabbit : MonoBehaviour
 {
-
     public GameObject[] rabbits;
     public List<Transform> spawnPoints;
     public List<Transform> spawnPointsSaves;
     public GameObject rabbitPrefab;
-
 
     public void Start()
     {
