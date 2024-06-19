@@ -28,21 +28,24 @@ public class TakeRabbit : MonoBehaviour
             if (Input.GetKey(KeyCode.Space) && isTaken == false)
             {
                 isTaken = true;
-                _rabbit = other;
+                Destroy(other.gameObject);
+                Mouth.SetActive(true);
+                //_rabbit = other;
                 StartCoroutine(Attack());
             }
 
-            if (isTaken && _rabbit.gameObject.transform.position != Mouth.transform.position && moveScript.isAttack == false)
-            {
-                _rabbit.gameObject.transform.position = Mouth.transform.position;
-                _rabbit.gameObject.transform.rotation = Mouth.transform.rotation;
-            }
+            //if (isTaken && _rabbit.gameObject.transform.position != Mouth.transform.position && moveScript.isAttack == false)
+            //{
+             //   _rabbit.gameObject.transform.position = Mouth.transform.position;
+             //   _rabbit.gameObject.transform.rotation = Mouth.transform.rotation;
+           // }
         }
 
         if (isTaken == true && other.gameObject.tag == "Fox Nest")
         {
             isTaken = false;
-            Destroy(_rabbit.gameObject);
+            Mouth.SetActive(false);
+            //Destroy(_rabbit.gameObject);
             Timer.lifeTime += 15;
             Spawn.SpawnOnce();
         }

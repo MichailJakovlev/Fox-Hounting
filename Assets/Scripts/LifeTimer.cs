@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class LifeTimer : MonoBehaviour {
-  public float lifeTime = 100;
-  public float maxLifeTime = 100;
+  public float lifeTime = 60;
+  public float maxLifeTime = 60;
   public UIManager UIManager;
   public Slider slider;
   [SerializeField] TextMeshProUGUI timerText;
@@ -23,5 +23,6 @@ public class LifeTimer : MonoBehaviour {
       lifeTime = maxLifeTime;
     }
     slider.value = lifeTime;
+        slider.maxValue = maxLifeTime;
   }
 }
