@@ -11,6 +11,8 @@ public class PauseMenu : MonoBehaviour {
 
     public GameObject GameOverMenuUI;
 
+    public GameObject Panel;
+
     void Update() {
         if (Input.GetKeyDown(KeyCode.Escape) && GameOverMenuUI.activeSelf == false) {
             if (IsPaused) {
@@ -25,10 +27,12 @@ public class PauseMenu : MonoBehaviour {
         pauseMenuUI.SetActive(false);
         IsPaused = false;
         Time.timeScale = 1;
+        Panel.SetActive(false);
     }
     public void Pause() {
         pauseMenuUI.SetActive(true);
         IsPaused = true;
         Time.timeScale = 0;
+        Panel.SetActive(true);
     }
 }
