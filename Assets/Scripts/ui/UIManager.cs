@@ -23,5 +23,6 @@ public class UIManager : MonoBehaviour {
     public void SetGameOverMenu(bool isActive, string score) {
         GameOverMenuUI.SetActive(isActive);
         timerTextMenu.text = score;
+        Time.timeScale = 0;
     }
 }
