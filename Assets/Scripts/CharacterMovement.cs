@@ -16,7 +16,8 @@ public class CharacterMovement : MonoBehaviour
 
     void LateUpdate() {
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
+        if (Time.timeScale == 1) {
+float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
         if (isDashing || isAttack)
@@ -55,5 +56,8 @@ public class CharacterMovement : MonoBehaviour
             agent.SetDestination(agent.transform.position);
             anim.Play("Fox_Idle");
         }
+        }
+
+
     }
 }
