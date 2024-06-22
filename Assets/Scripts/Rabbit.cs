@@ -1,9 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using TMPro;
 
 public class Rabbit : MonoBehaviour
 {

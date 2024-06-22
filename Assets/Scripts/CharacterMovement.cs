@@ -12,52 +12,44 @@ public class CharacterMovement : MonoBehaviour
     public Vector3 moveDir;
     float turnSmoothVelocity;
 
-    public UIManager UIManager;
-
-    void LateUpdate() {
-
-        if (Time.timeScale == 1) {
-float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        if (isDashing || isAttack)
+    void LateUpdate()
+    {
+        if (Time.timeScale == 1)
         {
-            horizontal = 0f;
-            vertical = 0f;
-        }
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            UIManager.SetGameOverMenu(true, "");
-        }
-
-        Vector3 direction = new Vector3 (horizontal, 0f, vertical).normalized;
-
-        if (horizontal != 0 || vertical != 0)
-        {
-            if (direction.magnitude >= 0.1f)
+            if (isDashing || isAttack)
             {
-                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                horizontal = 0f;
+                vertical = 0f;
+            }
 
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            Vector3 direction = new Vector3 (horizontal, 0f, vertical).normalized;
 
-                moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+            if (horizontal != 0 || vertical != 0)
+            {
+                if (direction.magnitude >= 0.1f)
+                {
+                    float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+                    float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
-                anim.Play("Fox_Run");
+                    transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-                agent.velocity = moveDir * speed * Time.fixedDeltaTime;
-                agent.SetDestination(moveDir + agent.transform.position);
+                    moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+
+                    anim.Play("Fox_Run");
+
+                    agent.velocity = moveDir * speed * Time.fixedDeltaTime;
+                    agent.SetDestination(moveDir + agent.transform.position);
+                }
+            }
+
+            else if (isDashing == false && isAttack == false)
+            {
+                agent.SetDestination(agent.transform.position);
+                anim.Play("Fox_Idle");
             }
         }
-
-        else if (isDashing == false && isAttack == false)
-        {
-            agent.SetDestination(agent.transform.position);
-            anim.Play("Fox_Idle");
-        }
-        }
-
-
     }
 }
