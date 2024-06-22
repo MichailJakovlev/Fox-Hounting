@@ -9,7 +9,6 @@ public class CharacterDash : MonoBehaviour
     public float dashSpeed;
     public float dashDelay;
     public float dashTime;
-    public float trueSpeed = 200;
 
     float dashTimer;
 
