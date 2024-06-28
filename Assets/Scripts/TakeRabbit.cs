@@ -5,7 +5,6 @@ public class TakeRabbit : MonoBehaviour
 {
     public bool isTaken = false;
     public Collider Nest;
-    private Collider _rabbit;
     public GameObject Mouth;
     public Animator rabbitAnim;
     public Animator foxAnim;
@@ -13,6 +12,8 @@ public class TakeRabbit : MonoBehaviour
     public SpawnRabbit Spawn;
     CharacterMovement moveScript;
     public float attackTime;
+    bool isGrab = false;
+    bool isRabbit = false;
 
     public void Start()
     {
@@ -20,32 +21,34 @@ public class TakeRabbit : MonoBehaviour
         var Spawn = GetComponent<SpawnRabbit>();
     }
 
+    public void GrabRabbit()
+    {
+        if(isRabbit)
+        {
+            isGrab = true;
+        }
+    }
+
     public void OnTriggerStay(Collider other)
     {
-
         if (other.gameObject.tag == "Rabbit")
         {
-            if (Input.GetKey(KeyCode.Space) && isTaken == false)
+            isRabbit = true;
+            if (Input.GetKey(KeyCode.Space) || isGrab && isTaken == false)
             {
                 isTaken = true;
+                isGrab = false;
+                isRabbit = false;
                 Destroy(other.gameObject);
                 Mouth.SetActive(true);
-                //_rabbit = other;
                 StartCoroutine(Attack());
-            }
-
-            //if (isTaken && _rabbit.gameObject.transform.position != Mouth.transform.position && moveScript.isAttack == false)
-            //{
-             //   _rabbit.gameObject.transform.position = Mouth.transform.position;
-             //   _rabbit.gameObject.transform.rotation = Mouth.transform.rotation;
-           // }
+            } 
         }
 
         if (isTaken == true && other.gameObject.tag == "Fox Nest")
         {
             isTaken = false;
             Mouth.SetActive(false);
-            //Destroy(_rabbit.gameObject);
             Timer.lifeTime += 15;
             Spawn.SpawnOnce();
         }

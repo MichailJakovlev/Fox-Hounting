@@ -11,6 +11,7 @@ public class CharacterMovement : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     public Vector3 moveDir;
     float turnSmoothVelocity;
+    public VariableJoystick variableJoystick;
 
     void LateUpdate()
     {
@@ -25,9 +26,17 @@ public class CharacterMovement : MonoBehaviour
                 vertical = 0f;
             }
 
-            Vector3 direction = new Vector3 (horizontal, 0f, vertical).normalized;
+            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-            if (horizontal != 0 || vertical != 0)
+            if (Application.isMobilePlatform || variableJoystick.Vertical != 0 && variableJoystick.Horizontal != 0)
+            {
+                Vector3 joyStickDirection = Vector3.forward * variableJoystick.Vertical + Vector3.right * variableJoystick.Horizontal;
+                agent.velocity = joyStickDirection * speed * Time.fixedDeltaTime;
+                agent.SetDestination(joyStickDirection + agent.transform.position);
+                anim.Play("Fox_Run");
+            }
+
+            else if (horizontal != 0 || vertical != 0)
             {
                 if (direction.magnitude >= 0.1f)
                 {
@@ -50,6 +59,6 @@ public class CharacterMovement : MonoBehaviour
                 agent.SetDestination(agent.transform.position);
                 anim.Play("Fox_Idle");
             }
-        }
+        }   
     }
 }

@@ -17,6 +17,12 @@ public class CharacterDash : MonoBehaviour
         moveScript = GetComponent<CharacterMovement>();
     }
 
+    public void StartDashing()
+    {
+        StartCoroutine(Dash());
+        dashTimer = dashDelay;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashTimer <= 0f)
