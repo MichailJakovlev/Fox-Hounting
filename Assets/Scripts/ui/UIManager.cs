@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour {
     public GameObject OptionsMenuUI;
     public GameObject GameOverMenuUI;
     public GameObject Panel;
+    public GameObject MoblieControl;
 
     [SerializeField] public TextMeshProUGUI timerTextMenu;
 
